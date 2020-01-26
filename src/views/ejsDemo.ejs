@@ -1,0 +1,42 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-01-26 21:43:12
+ * @LastEditTime : 2020-01-26 22:34:44
+ * @LastEditors  : Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \koa-weibo\src\views\ejsDemo.ejs
+ -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <!--普通变量渲染 -->
+    <h1><%= title %></h1>
+    <p>EJS Welcome to <%= title %></p>
+
+    <!-- 流程控制语句 -->
+    <div>
+        <% if(isMe) { %>
+            111
+        <% }else { %>
+            222
+        <% } %>
+    </div>
+
+    <!-- 引用组件 -->
+    <%- include('components/demo', {
+        content: "这是一个组件"
+    }) %>
+
+    <!-- 使用循环 -->
+    <% list.forEach(item => { %>
+        <div><%= item.title %></div>
+    <% }) %>
+</body>
+
+</html>
