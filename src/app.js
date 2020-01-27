@@ -1,3 +1,11 @@
+/*
+ * Author: your name
+ * Date: 2020-01-26 19:05:34
+ * LastEditTime: 2020-01-27 21:13:06
+ * LastEditors: Please set LastEditors
+ * Description: In User Settings Edit
+ * FilePath: \koa-weibo\src\app.js
+ */
 const Koa = require('koa')
 const app = new Koa()
 const views = require('koa-views')
@@ -5,7 +13,7 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
+require('./seq/sync')
 const index = require('./routes/index')
 const users = require('./routes/users')
 
