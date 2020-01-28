@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-01-27 21:13:06
+ * LastEditTime: 2020-01-28 21:19:26
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\app.js
@@ -13,7 +13,11 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-require('./seq/sync')
+const session = require('koa-generic-session')
+const redisStore = require('koa-redis')
+
+// require('./seq/sync')
+const { REDIS_CONF } = require('./config/db')
 const index = require('./routes/index')
 const users = require('./routes/users')
 
@@ -30,6 +34,21 @@ app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
+}))
+
+// session 配置
+app.keys = [ 'zzzhim' ]
+app.use(session({
+    key: 'weibo.sid', // 默认 'koa.sid'
+    prefix: 'weibo:sess:', // redis key 的前缀, 默认是 'koa:sess:'
+    cookie: {
+        path: '/',
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // ms
+    },
+    store: redisStore({
+        all: `${REDIS_CONF.host}:${REDIS_CONF.prot}`
+    })
 }))
 
 // logger

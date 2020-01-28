@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-01-26 21:43:12
- * @LastEditTime : 2020-01-26 22:34:44
+ * @LastEditTime : 2020-01-28 21:29:49
  * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \koa-weibo\src\views\ejsDemo.ejs
@@ -37,6 +37,11 @@
     <% list.forEach(item => { %>
         <div><%= item.title %></div>
     <% }) %>
+
+    <div>
+        已刷新<%= viewNum %>
+    </div>
+
 </body>
 
 </html>

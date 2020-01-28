@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-01-26 22:32:16
+ * LastEditTime: 2020-01-28 21:29:10
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\routes\index.js
@@ -31,6 +31,14 @@ router.get('/json', async (ctx, next) => {
  * @returns ejsDemo
  */
 router.get('/ejsDemo', async (ctx, next) => {
+    let session = await ctx.session
+
+    if(session.viewNum === null) {
+        session.viewNum = 0
+    }
+
+    ++session.viewNum
+
     await ctx.render('ejsDemo', {
         title: 'Hello Koa 2!',
         isMe: false,
@@ -47,7 +55,8 @@ router.get('/ejsDemo', async (ctx, next) => {
                 id: 3,
                 title: "c"
             }
-        ]
+        ],
+        viewNum: session.viewNum
     })
 })
 
