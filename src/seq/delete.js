@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-28 18:01:27
- * LastEditTime: 2020-01-28 18:10:32
+ * LastEditTime: 2020-01-28 19:17:07
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\seq\delete.js
@@ -30,6 +30,6 @@ const { Blog, User } = require('./model')
         }
     )
 
-    // 这里会删除失败，这是因为sequelize设置外键的时候，把userId的删除模式设置为了 'RESTRICT', 这里改为 'CASCADE' 就可以正常操作了。
+    // 这里会删除失败，这是因为设置外键的时候，把userId的删除模式设置为了 'RESTRICT', 这里改为 'CASCADE' 就可以正常操作了。
     console.log(delUser)
 })()
