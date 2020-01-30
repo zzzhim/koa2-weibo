@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-01-30 20:37:08
+ * LastEditTime: 2020-01-30 21:10:22
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\app.js
@@ -15,15 +15,17 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
+const koaJWT = require('koa-jwt')
 
+const { REDIS_CONF } = require('./config/db')
+const { SECRET } = require('./config/jwt')
 const { isProd } = require('./utils/env')
 // 路由
 const errorViewRouter = require('./routes/views/error')
 
 // require('./seq/sync')
-const { REDIS_CONF } = require('./config/db')
-// const index = require('./routes/index')
-// const users = require('./routes/users')
+const index = require('./routes/index')
+const users = require('./routes/users')
 
 // error handler
 let onerrorConfig = {}
@@ -35,6 +37,12 @@ if(isProd) {
 }
 
 onerror(app, onerrorConfig)
+
+app.use(koaJWT({
+    secret: SECRET
+}).unless({
+    path: [ /^\/users\/login/ ] // 自定义哪些目录忽略 jwt 验证
+}))
 
 // middlewares
 app.use(bodyparser({
@@ -72,8 +80,8 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-// app.use(index.routes(), index.allowedMethods())
-// app.use(users.routes(), users.allowedMethods())
+app.use(index.routes(), index.allowedMethods())
+app.use(users.routes(), users.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
