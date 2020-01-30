@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-01-28 21:29:10
+ * LastEditTime: 2020-01-30 19:52:37
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\routes\index.js
@@ -23,7 +23,6 @@ router.get('/json', async (ctx, next) => {
         title: 'koa2 json'
     }
 })
-
 
 /**
  *

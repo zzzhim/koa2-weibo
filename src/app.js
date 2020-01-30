@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-01-28 21:19:26
+ * LastEditTime: 2020-01-30 20:37:08
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\app.js
@@ -16,13 +16,25 @@ const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
+const { isProd } = require('./utils/env')
+// 路由
+const errorViewRouter = require('./routes/views/error')
+
 // require('./seq/sync')
 const { REDIS_CONF } = require('./config/db')
-const index = require('./routes/index')
-const users = require('./routes/users')
+// const index = require('./routes/index')
+// const users = require('./routes/users')
 
 // error handler
-onerror(app)
+let onerrorConfig = {}
+
+if(isProd) {
+    onerrorConfig = {
+        redirect: '/error'
+    }
+}
+
+onerror(app, onerrorConfig)
 
 // middlewares
 app.use(bodyparser({
@@ -60,8 +72,9 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+// app.use(index.routes(), index.allowedMethods())
+// app.use(users.routes(), users.allowedMethods())
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
