@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-02-01 00:37:21
+ * LastEditTime: 2020-02-01 01:09:22
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\app.js
@@ -27,6 +27,9 @@ const errorViewRouter = require('./routes/views/error')
 // require('./seq/sync')
 // const index = require('./routes/index')
 // const users = require('./routes/users')
+
+// API
+const userAPIRouter = require('./routes/api/user')
 
 // error handler
 let onerrorConfig = {}
@@ -79,6 +82,9 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
+// API
+app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 
 // routes
 // app.use(index.routes(), index.allowedMethods())
