@@ -1,15 +1,22 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:10:50
- * LastEditTime: 2020-02-01 15:03:41
+ * LastEditTime: 2020-02-01 15:35:57
  * LastEditors: Please set LastEditors
  * Description: user controller
  * FilePath: \koa-weibo\src\controller\user.js
  */
 
-const { getUserInfo } = require('../services/user')
+const {
+    getUserInfo,
+    createUser
+} = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
-const { registerUserNameNotExistInfo } = require('../model/ErrorInfo')
+const {
+    registerUserNameNotExistInfo,
+    registerUserNameExistInfo,
+    registerFailInfo
+} = require('../model/ErrorInfo')
 
 class User {
     constructor() {
@@ -30,6 +37,30 @@ class User {
         }else {
             // 用户名不存在
             return new ErrorModel(registerUserNameNotExistInfo)
+        }
+    }
+
+    /**
+     *
+     * 注册
+     * @param {*} { userName, password, gender }
+     * @memberof User
+     */
+    async register({ userName, password, gender }) {
+        const userInfo = await getUserInfo(userName)
+
+        if (userInfo) {
+            // 用户名已存在
+            return new ErrorModel(registerUserNameExistInfo)
+        }
+
+        try {
+            await createUser({ userName, password, gender })
+
+            return new SuccessModel()
+        } catch (error) {
+            console.error(error.message, error.stack)
+            return new ErrorModel(registerFailInfo)
         }
     }
 }

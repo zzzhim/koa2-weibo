@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:16:03
- * LastEditTime: 2020-02-01 14:48:31
+ * LastEditTime: 2020-02-01 15:32:59
  * LastEditors: Please set LastEditors
  * Description: user service
  * FilePath: \koa-weibo\src\services\user.js
@@ -44,6 +44,23 @@ class UserServices {
             // 格式化
             return formatUser(result.dataValues)
         }
+    }
+
+    /**
+     *
+     * 创建用户
+     * @param {*} { userName, password, gender = 3, nickName }
+     * @memberof UserServices
+     */
+    async createUser({ userName, password, gender = 3, nickName }) {
+        const result = await User.create({
+            userName,
+            password,
+            gender,
+            nickName: nickName ? nickName : userName
+        })
+
+        return result.dataValues
     }
 }
 

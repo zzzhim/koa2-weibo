@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 00:41:32
- * LastEditTime: 2020-02-01 00:51:20
+ * LastEditTime: 2020-02-01 15:37:51
  * LastEditors: Please set LastEditors
  * Description: 用户数据模型
  * FilePath: \koa-weibo\src\db\model\User.js
@@ -38,7 +38,6 @@ const User = seq.define('user', {
     },
     picture: {
         type: STRING,
-        allowNull: false,
         comment: '头像图片地址'
     },
     city: {
