@@ -1,12 +1,13 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:27:43
- * LastEditTime: 2020-02-01 01:35:18
+ * LastEditTime: 2020-02-01 14:28:35
  * LastEditors: Please set LastEditors
  * Description: 数据格式化
  * FilePath: \koa-weibo\src\services\_format.js
  */
 
+const { PICTURE } = require('../config/picture')
 
 /**
  *
@@ -16,7 +17,7 @@
  */
 function _formatUserPicture(params) {
     if(params.picture === null) {
-        params.picture = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
+        params.picture = PICTURE
     }
     return params
 }

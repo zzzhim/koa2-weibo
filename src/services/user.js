@@ -1,17 +1,18 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:16:03
- * LastEditTime: 2020-02-01 01:27:29
+ * LastEditTime: 2020-02-01 14:48:31
  * LastEditors: Please set LastEditors
  * Description: user service
  * FilePath: \koa-weibo\src\services\user.js
  */
 
 const { User } = require('../db/model/index')
+const { formatUser } = require('./_format')
 
-class User {
+class UserServices {
     constructor() {
-        super()
+        // super()
     }
 
     /**
@@ -41,9 +42,9 @@ class User {
             return result
         }else {
             // 格式化
-            return result.dataValues
+            return formatUser(result.dataValues)
         }
     }
 }
 
-module.exports = new User()
+module.exports = new UserServices()

@@ -50,7 +50,7 @@
             processData: false,
             data: formData,
             success: function(res) {
-                if (res.errno !== 0) {
+                if (res.status !== 200) {
                     // 错误
                     callback(res.message)
                     return
@@ -73,7 +73,7 @@
             contentType: 'application/json;charset=UTF-8',
             data: params ? JSON.stringify(params) : '',
             success: function(res) {
-                if (res.errno !== 0) {
+                if (res.status !== 0) {
                     // 错误
                     callback(res.message)
                     return
