@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:10:50
- * LastEditTime: 2020-02-01 15:35:57
+ * LastEditTime: 2020-02-02 20:22:33
  * LastEditors: Please set LastEditors
  * Description: user controller
  * FilePath: \koa-weibo\src\controller\user.js
@@ -17,6 +17,7 @@ const {
     registerUserNameExistInfo,
     registerFailInfo
 } = require('../model/ErrorInfo')
+const doCrypto = require('../utils/cryp')
 
 class User {
     constructor() {
@@ -53,8 +54,9 @@ class User {
             // 用户名已存在
             return new ErrorModel(registerUserNameExistInfo)
         }
-
+        
         try {
+            password = doCrypto(password) // 密码加密
             await createUser({ userName, password, gender })
 
             return new SuccessModel()
