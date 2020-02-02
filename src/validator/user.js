@@ -1,0 +1,63 @@
+/*
+ * Author: your name
+ * Date: 2020-02-02 20:43:50
+ * LastEditTime: 2020-02-02 20:56:46
+ * LastEditors: Please set LastEditors
+ * Description: user 数据格式校验
+ * FilePath: \koa-weibo\src\validator\user.js
+ */
+
+const _validate = require('./validate')
+
+// 校验规则
+const SCHEMA = {
+    type: 'object',
+    properties: {
+        userName: {
+            type: 'string',
+            pattern: '^[a-zA-Z][a-zA-Z0-9_]+$', // 字母开头，字母数字下划线
+            maxLength: 255,
+            minLength: 2
+        },
+        password: {
+            type: 'string',
+            maxLength: 255,
+            minLength: 3
+        },
+        newPassword: {
+            type: 'string',
+            maxLength: 255,
+            minLength: 3
+        },
+        nickName: {
+            type: 'string',
+            maxLength: 255
+        },
+        picture: {
+            type: 'string',
+            maxLength: 255
+        },
+        city: {
+            type: 'string',
+            maxLength: 255,
+            minLength: 2
+        },
+        gender: {
+            type: 'number',
+            minimum: 1,
+            maximum: 3
+        }
+    }
+}
+
+/**
+ *
+ * 校验用户数据格式是否正确
+ * @param {*} [data={}] 用户数据
+ * @returns
+ */
+function userValidate(data = {}) {
+    return _validate(SCHEMA, data)
+}
+
+module.exports = userValidate
