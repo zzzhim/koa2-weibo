@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:10:50
- * LastEditTime: 2020-02-02 20:22:33
+ * LastEditTime: 2020-02-03 21:13:25
  * LastEditors: Please set LastEditors
  * Description: user controller
  * FilePath: \koa-weibo\src\controller\user.js
@@ -15,7 +15,8 @@ const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
-    registerFailInfo
+    registerFailInfo,
+    loginFailInfo
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 
@@ -63,6 +64,32 @@ class User {
         } catch (error) {
             console.error(error.message, error.stack)
             return new ErrorModel(registerFailInfo)
+        }
+    }
+
+    /**
+     *
+     * 登录
+     * @param {*} ctx koa2 ctx
+     * @param {*} userName 用户名
+     * @param {*} password 密码
+     * @memberof User
+     */
+    async login(ctx, userName, password) {
+        // 获取用户信息
+        const userInfo = await getUserInfo(userName, doCrypto(password))
+
+        if(userInfo) {
+            // 登录成功
+            const session = await ctx.session
+            if(session.userInfo === null || session.userInfo === undefined) {
+                session.userInfo = userInfo
+            }
+
+            return new SuccessModel()
+        }else {
+            // 登录失败
+            return new ErrorModel(loginFailInfo)
         }
     }
 }
