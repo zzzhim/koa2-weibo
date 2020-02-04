@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:10:50
- * LastEditTime: 2020-02-03 21:13:25
+ * LastEditTime: 2020-02-04 18:11:51
  * LastEditors: Please set LastEditors
  * Description: user controller
  * FilePath: \koa-weibo\src\controller\user.js
@@ -9,14 +9,16 @@
 
 const {
     getUserInfo,
-    createUser
+    createUser,
+    deleteUser
 } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
     registerUserNameNotExistInfo,
     registerUserNameExistInfo,
     registerFailInfo,
-    loginFailInfo
+    loginFailInfo,
+    deleteUserFailInfo
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 
@@ -91,6 +93,24 @@ class User {
             // 登录失败
             return new ErrorModel(loginFailInfo)
         }
+    }
+
+    /**
+     *
+     * 删除当前用户
+     * @param {*} userName
+     * @memberof User
+     */
+    async delectCurUser(userName) {
+        const result = await deleteUser(userName)
+
+        // 成功
+        if(result) {
+            return new SuccessModel()
+        }
+
+        // 失败
+        return new ErrorModel(deleteUserFailInfo)
     }
 }
 

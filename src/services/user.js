@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:16:03
- * LastEditTime: 2020-02-01 15:32:59
+ * LastEditTime: 2020-02-04 18:10:23
  * LastEditors: Please set LastEditors
  * Description: user service
  * FilePath: \koa-weibo\src\services\user.js
@@ -61,6 +61,23 @@ class UserServices {
         })
 
         return result.dataValues
+    }
+
+    /**
+     *
+     * 删除用户
+     * @param {*} userName
+     * @memberof UserServices
+     */
+    async deleteUser(userName) {
+        const result = await User.destroy({
+            where: {
+                userName
+            }
+        })
+
+        // 删除的行数是否大于0
+        return result > 0
     }
 }
 
