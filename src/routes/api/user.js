@@ -1,14 +1,21 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:03:40
- * LastEditTime: 2020-02-07 23:19:54
+ * LastEditTime: 2020-02-08 00:15:55
  * LastEditors: Please set LastEditors
  * Description: user API 路由
  * FilePath: \koa-weibo\src\routes\api\user.js
  */
 
 const Router = require('koa-router')
-const { isExist, register, login, delectCurUser, changeInfo } = require('../../controller/user')
+const {
+    isExist,
+    register,
+    login,
+    delectCurUser,
+    changeInfo,
+    changePassword
+} = require('../../controller/user')
 const userValidate = require('../../validator/user')
 const { genValidator } = require('../../middlewares/validator')
 const { isTest } = require('../../utils/env')
@@ -61,6 +68,17 @@ router.patch('/changeInfo', loginCheck, genValidator(userValidate), async ctx =>
         nickName,
         city,
         picture
+    })
+})
+
+router.patch('/changePassword', loginCheck, genValidator(userValidate), async ctx => {
+    const { password, newPassword } = ctx.request.body
+    const { userName } = ctx.session.userInfo
+
+    ctx.body = await changePassword({
+        userName,
+        password,
+        newPassword
     })
 })
 

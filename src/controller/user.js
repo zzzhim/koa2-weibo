@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:10:50
- * LastEditTime: 2020-02-08 00:03:20
+ * LastEditTime: 2020-02-08 00:20:36
  * LastEditors: Please set LastEditors
  * Description: user controller
  * FilePath: \koa-weibo\src\controller\user.js
@@ -20,7 +20,8 @@ const {
     registerFailInfo,
     loginFailInfo,
     deleteUserFailInfo,
-    changeInfoFailInfo
+    changeInfoFailInfo,
+    changePasswordFailInfo
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 
@@ -144,6 +145,30 @@ class User {
         }
 
         return new ErrorModel(changeInfoFailInfo)
+    }
+
+    /**
+     *
+     * 修改用户密码
+     * @param {*} { userName, password, newPassword }
+     * @memberof User
+     */
+    async changePassword({ userName, password, newPassword }) {
+        const result = await updateUser(
+            {
+                newPassword: doCrypto(newPassword)
+            },
+            {
+                userName,
+                password: doCrypto(password)
+            }
+        )
+
+        if(result) {
+            return new SuccessModel()
+        }
+
+        return new ErrorModel(changePasswordFailInfo)
     }
 }
 
