@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-02-07 22:51:42
+ * LastEditTime: 2020-02-08 00:47:12
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\app.js
@@ -22,6 +22,7 @@ const path = require('path')
 const { REDIS_CONF } = require('./config/db')
 // const { SECRET } = require('./config/jwt')
 const { isProd } = require('./utils/env')
+const { SID, PREFIX } = require('./config/session')
 // 路由
 const userViewRouter = require('./routes/views/user')
 const errorViewRouter = require('./routes/views/error')
@@ -68,8 +69,8 @@ app.use(views(__dirname + '/views', {
 // session 配置
 app.keys = [ 'zzzhim' ]
 app.use(session({
-    key: 'weibo.sid', // 默认 'koa.sid'
-    prefix: 'weibo:sess:', // redis key 的前缀, 默认是 'koa:sess:'
+    key: SID, // 默认 'koa.sid'
+    prefix: PREFIX, // redis key 的前缀, 默认是 'koa:sess:'
     cookie: {
         path: '/',
         httpOnly: true,

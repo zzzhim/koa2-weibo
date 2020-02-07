@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:03:40
- * LastEditTime: 2020-02-08 00:15:55
+ * LastEditTime: 2020-02-08 00:33:31
  * LastEditors: Please set LastEditors
  * Description: user API 路由
  * FilePath: \koa-weibo\src\routes\api\user.js
@@ -14,7 +14,8 @@ const {
     login,
     delectCurUser,
     changeInfo,
-    changePassword
+    changePassword,
+    logout
 } = require('../../controller/user')
 const userValidate = require('../../validator/user')
 const { genValidator } = require('../../middlewares/validator')
@@ -71,6 +72,7 @@ router.patch('/changeInfo', loginCheck, genValidator(userValidate), async ctx =>
     })
 })
 
+// 修改密码
 router.patch('/changePassword', loginCheck, genValidator(userValidate), async ctx => {
     const { password, newPassword } = ctx.request.body
     const { userName } = ctx.session.userInfo
@@ -80,6 +82,11 @@ router.patch('/changePassword', loginCheck, genValidator(userValidate), async ct
         password,
         newPassword
     })
+})
+
+// 退出登录
+router.post('/logout', loginCheck, async ctx => {
+    ctx.body = await logout(ctx)
 })
 
 module.exports = router

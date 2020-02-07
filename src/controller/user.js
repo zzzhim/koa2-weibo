@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:10:50
- * LastEditTime: 2020-02-08 00:20:36
+ * LastEditTime: 2020-02-08 01:01:11
  * LastEditors: Please set LastEditors
  * Description: user controller
  * FilePath: \koa-weibo\src\controller\user.js
@@ -169,6 +169,18 @@ class User {
         }
 
         return new ErrorModel(changePasswordFailInfo)
+    }
+
+    
+    /**
+     *
+     * 退出登录
+     * @param {*} ctx
+     * @memberof User
+     */
+    async logout(ctx) {
+        delete ctx.session.userInfo
+        return new SuccessModel()
     }
 }
 
