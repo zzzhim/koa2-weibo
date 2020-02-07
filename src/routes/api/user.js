@@ -1,14 +1,14 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:03:40
- * LastEditTime: 2020-02-04 18:13:37
+ * LastEditTime: 2020-02-07 23:19:54
  * LastEditors: Please set LastEditors
  * Description: user API 路由
  * FilePath: \koa-weibo\src\routes\api\user.js
  */
 
 const Router = require('koa-router')
-const { isExist, register, login, delectCurUser } = require('../../controller/user')
+const { isExist, register, login, delectCurUser, changeInfo } = require('../../controller/user')
 const userValidate = require('../../validator/user')
 const { genValidator } = require('../../middlewares/validator')
 const { isTest } = require('../../utils/env')
@@ -51,6 +51,17 @@ router.post('/delete', loginCheck, async ctx => {
         const { userName } = ctx.session.userInfo
         ctx.body = await delectCurUser(userName)
     }
+})
+
+// 修改个人信息
+router.patch('/changeInfo', loginCheck, genValidator(userValidate), async ctx => {
+    const { nickName, city, picture } = ctx.request.body
+
+    ctx.body = await changeInfo(ctx, {
+        nickName,
+        city,
+        picture
+    })
 })
 
 module.exports = router

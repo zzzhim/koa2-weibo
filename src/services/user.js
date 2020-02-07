@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:16:03
- * LastEditTime: 2020-02-04 18:10:23
+ * LastEditTime: 2020-02-07 23:30:35
  * LastEditors: Please set LastEditors
  * Description: user service
  * FilePath: \koa-weibo\src\services\user.js
@@ -78,6 +78,49 @@ class UserServices {
 
         // 删除的行数是否大于0
         return result > 0
+    }
+
+    /**
+     *
+     * 更新用户信息
+     * @param {*} { newPassword, newNickName, newPicture, newCity }
+     * @param {*} { userName, password }
+     * @memberof UserServices
+     */
+    async updateUser({ newPassword, newNickName, newPicture, newCity }, { userName, password }) {
+        // 拼接修改内容
+        const updateData = {}
+        if(newPassword) {
+            updateData.password = newPassword
+        }
+
+        if(newNickName) {
+            updateData.nickName = newNickName
+        }
+
+        if(newPicture) {
+            updateData.picture = newPicture
+        }
+
+        if(newCity) {
+            updateData.city = newCity
+        }
+
+        // 拼接修改条件
+        const whereData = {
+            userName
+        }
+
+        if(password) {
+            whereData.password = password
+        }
+
+        // 执行修改
+        const result = await User.update(updateData, {
+            where: whereData
+        })
+
+        return result[0] > 0
     }
 }
 

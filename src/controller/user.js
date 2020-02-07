@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:10:50
- * LastEditTime: 2020-02-04 18:11:51
+ * LastEditTime: 2020-02-07 23:34:02
  * LastEditors: Please set LastEditors
  * Description: user controller
  * FilePath: \koa-weibo\src\controller\user.js
@@ -10,7 +10,8 @@
 const {
     getUserInfo,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const {
@@ -18,7 +19,8 @@ const {
     registerUserNameExistInfo,
     registerFailInfo,
     loginFailInfo,
-    deleteUserFailInfo
+    deleteUserFailInfo,
+    changeInfoFailInfo
 } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 
@@ -111,6 +113,37 @@ class User {
 
         // 失败
         return new ErrorModel(deleteUserFailInfo)
+    }
+
+    /**
+     *
+     * 修改个人信息
+     * @param {*} ctx
+     * @param {*} { nickName, city, picture }
+     * @memberof User
+     */
+    async changeInfo(ctx, { nickName, city, picture }) {
+        const { userName } = ctx.session.userInfo
+        if(!nickName) {
+            nickName = userName
+        }
+
+        const result = await updateUser(
+            {
+                newNickName: nickName,
+                newCity: city,
+                newPicture: picture
+            },
+            { userName }
+        )
+
+        if(result) {
+            // 执行成功
+            ctx.session.userInfo = { nickName, city, picture }
+            return new SuccessModel()
+        }
+
+        return new ErrorModel(changeInfoFailInfo)
     }
 }
 
