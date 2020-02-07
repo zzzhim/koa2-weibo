@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-04 18:14:28
- * LastEditTime: 2020-02-04 18:30:19
+ * LastEditTime: 2020-02-08 01:19:10
  * LastEditors: Please set LastEditors
  * Description: user api test
  * FilePath: \koa-weibo\test\user\login.test.js
@@ -82,12 +82,51 @@ test('登录，应该成功', async () => {
     COOKIE = res.header['set-cookie'].join(';')
 })
 
+// 修改基本信息
+test('修改基本信息应该成功', async () => {
+    const res = await server
+        .patch('/api/user/changeInfo')
+        .send({
+            nickName: '测试昵称',
+            city: '测试城市',
+            picture: '/test.png'
+        })
+        .set('cookie', COOKIE)
+    
+    // 成功
+    expect(res.body.status).toBe(200)
+})
+
+// 修改密码
+test('修改密码应该成功', async () => {
+    const res = await server
+        .patch('/api/user/changePassword')
+        .send({
+            password,
+            newPassword: `@3d${Date.now()}`
+        })
+        .set('cookie', COOKIE)
+    
+    // 成功
+    expect(res.body.status).toBe(200)
+})
+
 // 删除
 test('删除用户，应该成功', async () => {
     const res = await server
         .post('/api/user/delete')
         .set('cookie', COOKIE)
 
+    // 成功
+    expect(res.body.status).toBe(200)
+})
+
+// 退出登录
+test('退出登录应该成功', async () => {
+    const res = await server
+        .post('/api/user/logout')
+        .set('cookie', COOKIE)
+    
     // 成功
     expect(res.body.status).toBe(200)
 })
@@ -101,3 +140,4 @@ test('删除之后，再次查询注册的用户名，应该不存在', async ()
     // 不存在
     expect(res.body.status).not.toBe(200)
 })
+
