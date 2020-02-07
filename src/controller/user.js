@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 01:10:50
- * LastEditTime: 2020-02-07 23:34:02
+ * LastEditTime: 2020-02-08 00:03:20
  * LastEditors: Please set LastEditors
  * Description: user controller
  * FilePath: \koa-weibo\src\controller\user.js
@@ -139,7 +139,7 @@ class User {
 
         if(result) {
             // 执行成功
-            ctx.session.userInfo = { nickName, city, picture }
+            ctx.session.userInfo = { ...ctx.session.userInfo, nickName, city, picture }
             return new SuccessModel()
         }
 
