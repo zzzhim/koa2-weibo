@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-02-01 01:09:22
+ * LastEditTime: 2020-02-07 22:51:42
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\app.js
@@ -15,6 +15,8 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
+const koaStatic = require('koa-static')
+const path = require('path')
 // const koaJWT = require('koa-jwt')
 
 const { REDIS_CONF } = require('./config/db')
@@ -30,6 +32,8 @@ const errorViewRouter = require('./routes/views/error')
 
 // API
 const userAPIRouter = require('./routes/api/user')
+const utilsAPIRuter = require('./routes/api/utils')
+
 
 // error handler
 let onerrorConfig = {}
@@ -54,7 +58,8 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(__dirname + '/public'))
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')))
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
@@ -85,6 +90,7 @@ app.use(async (ctx, next) => {
 
 // API
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+app.use(utilsAPIRuter.routes(), utilsAPIRuter.allowedMethods())
 
 // routes
 // app.use(index.routes(), index.allowedMethods())
