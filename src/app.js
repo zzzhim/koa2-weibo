@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-01-26 19:05:34
- * LastEditTime: 2020-02-08 00:47:12
+ * LastEditTime: 2020-02-09 16:54:29
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\app.js
@@ -25,6 +25,7 @@ const { isProd } = require('./utils/env')
 const { SID, PREFIX } = require('./config/session')
 // 路由
 const userViewRouter = require('./routes/views/user')
+const blogViewRouter = require('./routes/views/blog')
 const errorViewRouter = require('./routes/views/error')
 
 // require('./seq/sync')
@@ -97,6 +98,7 @@ app.use(utilsAPIRuter.routes(), utilsAPIRuter.allowedMethods())
 // app.use(index.routes(), index.allowedMethods())
 // app.use(users.routes(), users.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling

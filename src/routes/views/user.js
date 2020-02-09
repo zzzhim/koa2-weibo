@@ -1,7 +1,7 @@
 /*
  * Author: your name
  * Date: 2020-02-01 00:31:43
- * LastEditTime: 2020-02-04 01:13:50
+ * LastEditTime: 2020-02-09 16:56:28
  * LastEditors: Please set LastEditors
  * Description: In User Settings Edit
  * FilePath: \koa-weibo\src\routes\views\user.js
@@ -11,36 +11,6 @@ const Router = require('koa-router')
 const { loginRedirect } = require('../../middlewares/lofinChecks')
 
 const router = new Router()
-
-router.get('/', loginRedirect, async (ctx, next) => {
-    let session = await ctx.session
-
-    if(session.viewNum === null) {
-        session.viewNum = 0
-    }
-
-    ++session.viewNum
-
-    await ctx.render('ejsDemo', {
-        title: 'Hello Koa 2!',
-        isMe: false,
-        list: [
-            {
-                id: 1,
-                title: "a"
-            },
-            {
-                id: 2,
-                title: "b"
-            },
-            {
-                id: 3,
-                title: "c"
-            }
-        ],
-        viewNum: session.viewNum
-    })
-})
 
 router.get('/login', async (ctx, next) => {
     // const userInfo = await ctx.session.userInfo
