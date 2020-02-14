@@ -73,11 +73,12 @@
             contentType: 'application/json;charset=UTF-8',
             data: params ? JSON.stringify(params) : '',
             success: function(res) {
-                if (res.status !== 0) {
+                if (res.status !== 200) {
                     // 错误
                     callback(res.message)
                     return
                 }
+                
                 // 正确
                 callback(null, res.data)
             },
